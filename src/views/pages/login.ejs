@@ -1,13 +1,12 @@
 <form method="POST">
   <div>
     <label for="email">Email</label>
-    <input type="email" id="email" name="email" value="" placeholder="Enter your email address" />
-    <span><%= errorEmail %></span>
+    <input type="email" id="email" name="email" value="<%= email %>" placeholder="Enter your email address" />
   </div>
   <div>
     <label for="password">Password</label>
     <input type="password" id="password" name="password" value="" placeholder="Enter your password" />
-    <span><%= errorPassword %></span>
   </div>
   <button type="submit">Login</button>
+  <span><%= error %></span>
 </form>
