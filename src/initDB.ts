@@ -8,15 +8,15 @@ const log = debug("app:initDB");
 const initUsers = async () => {
   const users = [
     {
-      username: "admin@gmail.com",
+      email: "admin@gmail.com",
       password: await User.hashPassword("123456"),
     },
     {
-      username: "user1@gmail.com",
+      email: "user1@gmail.com",
       password: await User.hashPassword("654321"),
     },
     {
-      username: "user2@gmail.com",
+      email: "user2@gmail.com",
       password: await User.hashPassword("135791"),
     },
   ];

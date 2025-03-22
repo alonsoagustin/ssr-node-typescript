@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 interface IUser {
-  username: string;
+  email: string;
   password: string;
+  comparePassword(clearPassword: string): Promise<boolean>;
 }
 
 interface UserModel extends mongoose.Model<IUser> {
@@ -12,7 +13,7 @@ interface UserModel extends mongoose.Model<IUser> {
 
 const userSchema = new mongoose.Schema<IUser>(
   {
-    username: {
+    email: {
       type: String,
       required: true,
       unique: true,
@@ -32,6 +33,11 @@ const userSchema = new mongoose.Schema<IUser>(
     statics: {
       hashPassword: async function (clearPassword: string) {
         return bcrypt.hash(clearPassword, 10);
+      },
+    },
+    methods: {
+      comparePassword: async function (clearPassword: string) {
+        return bcrypt.compare(clearPassword, this.password);
       },
     },
   }
