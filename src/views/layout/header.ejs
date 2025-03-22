@@ -1,0 +1,14 @@
+<header>
+  <h1>
+    <a href="/">
+      <%= app %>
+    </a>
+  </h1>
+
+  <% if (authenticated) { %>
+  <a href="/auth/logout">Logout</a>
+  <% } else { %>
+  <a href="/auth/login">Login</a>
+  <% } %>
+
+</header>
