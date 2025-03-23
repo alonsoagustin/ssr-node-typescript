@@ -28,3 +28,15 @@ export const setLocalsSession = (
   res.locals.session = req.session;
   next();
 };
+
+export const requireAuth = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.session.userId) {
+    res.redirect("/auth/login");
+    return;
+  }
+  next();
+};
