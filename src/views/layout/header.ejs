@@ -5,7 +5,7 @@
     </a>
   </h1>
 
-  <% if (authenticated) { %>
+  <% if (session.userId) { %>
   <a href="/auth/logout">Logout</a>
   <% } else { %>
   <a href="/auth/login">Login</a>

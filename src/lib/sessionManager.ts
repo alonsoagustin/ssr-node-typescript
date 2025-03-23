@@ -1,5 +1,6 @@
 import session from "express-session";
-import { SECRET_SESSION } from "../config";
+import { Request, Response, NextFunction } from "express";
+import { APPNAME, CONTACT, SECRET_SESSION } from "../config";
 
 declare module "express-session" {
   interface SessionData {
@@ -16,3 +17,14 @@ export const createSession = session({
     maxAge: 1000 * 60 * 60 * 24 * 2, // The cookie will expire in 2 days
   },
 });
+
+export const setLocalsSession = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  res.locals.app = APPNAME;
+  res.locals.contact = CONTACT;
+  res.locals.session = req.session;
+  next();
+};
