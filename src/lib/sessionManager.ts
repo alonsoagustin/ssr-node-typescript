@@ -1,6 +1,12 @@
 import session from "express-session";
 import { SECRET_SESSION } from "../config";
 
+declare module "express-session" {
+  interface SessionData {
+    userId?: string;
+  }
+}
+
 export const createSession = session({
   name: "nodeapp-session", // Name of the cookie
   secret: String(SECRET_SESSION), // Secret used to sign the session ID cookie
