@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User from "../model/User";
+import path from "node:path";
 
 const renderLogin = (
   res: Response,
@@ -9,7 +10,7 @@ const renderLogin = (
   res.locals.page = "../pages/login";
   res.locals.email = email;
   res.locals.error = error;
-  res.render("layout/base.ejs");
+  res.render(path.join(__dirname, "../views/layout/base.ejs"));
 };
 
 export const getLogin = (_req: Request, res: Response) => {
@@ -41,5 +42,10 @@ export const postLogin = async (req: Request, res: Response) => {
   // if user exists and password is correct we set the userId in the session and redirect to the products page
   req.session.userId = user.id;
 
-  res.status(200).redirect("/products");
+  res.redirect("/products");
+};
+
+export const getLogout = (req: Request, res: Response) => {
+  req.session.userId = undefined;
+  res.redirect("/auth/login");
 };
