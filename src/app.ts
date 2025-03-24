@@ -17,7 +17,7 @@ app.set("view engine", "ejs");
 app.use(sessionManager.createSession, sessionManager.setLocalsSession);
 
 app.get("/", homeRouter);
-app.use("/products", sessionManager.requireAuth, productsRouter);
 app.use("/auth", authRouter);
+app.use("/products", sessionManager.requireAuth, productsRouter);
 
 export default app;

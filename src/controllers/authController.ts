@@ -49,3 +49,10 @@ export const getLogout = (req: Request, res: Response) => {
   req.session.userId = undefined;
   res.redirect("/auth/login");
 };
+
+export const getSignup = (_req: Request, res: Response) => {
+  res.locals.page = "../pages/signup";
+  res.locals.email = "";
+  res.locals.error = "";
+  res.status(200).render(path.join(__dirname, "../views/layout/base.ejs"));
+};
