@@ -13,12 +13,13 @@ const renderLogin = (
   res.render(path.join(__dirname, "../views/layout/base.ejs"));
 };
 
-const renderSignup = (
+const renderPage = (
   res: Response,
-  email: string | undefined = undefined,
-  error: string | undefined = undefined
+  page: string,
+  email?: string,
+  error?: string
 ) => {
-  res.locals.page = "../pages/signup";
+  res.locals.page = `../pages/${page}`;
   res.locals.email = email;
   res.locals.error = error;
   res.render(path.join(__dirname, "../views/layout/base.ejs"));
@@ -26,7 +27,7 @@ const renderSignup = (
 
 export const getLogin = (_req: Request, res: Response) => {
   res.status(200);
-  renderLogin(res);
+  renderPage(res, "login");
 };
 
 export const postLogin = async (req: Request, res: Response) => {
@@ -36,7 +37,7 @@ export const postLogin = async (req: Request, res: Response) => {
   // If email and password are not provided we render the login page with an error message
   if (!email || !password) {
     res.status(400);
-    renderLogin(res, email, "Please provide an email and password");
+    renderPage(res, "login", email, "Please provide an email and password");
     return;
   }
 
@@ -46,7 +47,7 @@ export const postLogin = async (req: Request, res: Response) => {
   // if user does not exist or password is incorrect we render the login page with an error message
   if (!user || !(await user.comparePassword(password))) {
     res.status(401);
-    renderLogin(res, email, "Invalid email or password");
+    renderPage(res, "login", email, "Invalid email or password");
     return;
   }
 
@@ -63,7 +64,7 @@ export const getLogout = (req: Request, res: Response) => {
 
 export const getSignup = (_req: Request, res: Response) => {
   res.status(200);
-  renderSignup(res);
+  renderPage(res, "signup");
 };
 
 export const postSignup = async (req: Request, res: Response) => {
@@ -73,14 +74,14 @@ export const postSignup = async (req: Request, res: Response) => {
   // If email, password and passwordConfirmation are not provided we render the signup page with an error message
   if (!email || !password || !passwordConfirmation) {
     res.status(400);
-    renderSignup(res, email, "Please complete all fields to sign up.");
+    renderPage(res, "signup", email, "Please complete all fields to sign up.");
     return;
   }
 
   // if password and passwordConfirmation do not match we render the signup page with an error message
   if (password !== passwordConfirmation) {
     res.status(400);
-    renderSignup(res, email, "Passwords do not match.");
+    renderPage(res, "signup", email, "Passwords do not match.");
     return;
   }
 
@@ -88,7 +89,7 @@ export const postSignup = async (req: Request, res: Response) => {
   const foundUser = await User.findOne({ email });
   if (foundUser) {
     res.status(400);
-    renderSignup(res, email, "Email is already registered.");
+    renderPage(res, "signup", email, "Email is already registered.");
     return;
   }
 
