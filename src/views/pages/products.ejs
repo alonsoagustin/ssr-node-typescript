@@ -36,10 +36,21 @@
 
 
 <% if(error) {  %>
-<p><%= error %></p>
+<div>
+  <dialog open class="error-dialog">
+    <p><%= error %></p>
+    <button>Close</button>
+  </dialog>
+</div>
 <% } %>
 
 <script>
+  // Close the error dialog when clicking the close button
+  document.querySelector('.error-dialog button')?.addEventListener('click', () => {
+    document.querySelector('.error-dialog').close()
+  })
+
+  // Show a confirmation dialog when clicking the delete button
   document.querySelectorAll('.delete-btn').forEach(button => {
     button.addEventListener('click', (event) => {
 
