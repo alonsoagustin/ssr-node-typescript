@@ -2,17 +2,6 @@ import { Request, Response } from "express";
 import User from "../model/User";
 import path from "node:path";
 
-const renderLogin = (
-  res: Response,
-  email: string | undefined = undefined,
-  error: string | undefined = undefined
-) => {
-  res.locals.page = "../pages/login";
-  res.locals.email = email;
-  res.locals.error = error;
-  res.render(path.join(__dirname, "../views/layout/base.ejs"));
-};
-
 const renderPage = (
   res: Response,
   page: string,
