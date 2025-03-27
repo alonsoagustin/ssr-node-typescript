@@ -96,16 +96,39 @@ export const getProductDetails = async (req: Request, res: Response) => {
     // find the product in the database
     const product = await Product.findById(productId);
 
-    console.log(product);
-
     // if the product does not exist, render the notFound page
     if (!product) {
       res.locals.page = "../pages/notFound";
       res.status(404).render(path.join(__dirname, "../view/layout/base.ejs"));
+      return;
     }
     //render the productDetails page with the product data
     res.locals.product = product;
     res.render(path.join(__dirname, "../views/pages/productDetails"));
+  } catch (error) {
+    // if there is an error, render the serverError page
+    res.locals.page = "../pages/serverError";
+    res.status(500).render(path.join(__dirname, "../views/layout/base.ejs"));
+  }
+};
+
+export const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    // get the product id from the request parametrs
+    const { productId } = req.params;
+
+    // find and delete the product in the database
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+
+    // if the product does not exist, render the notFound page
+    if (!deletedProduct) {
+      res.locals.page = "../pages/notFound";
+      res.status(404).render(path.join(__dirname, "../views/layout/base.ejs"));
+      return;
+    }
+
+    // redirect to products page
+    res.redirect("/products");
   } catch (error) {
     // if there is an error, render the serverError page
     res.locals.page = "../pages/serverError";
