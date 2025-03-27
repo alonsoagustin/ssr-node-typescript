@@ -12,7 +12,7 @@ interface IProduct {
 }
 
 // create productSchema
-const productSchema = new mongoose.Schema<IProduct>(
+export const productSchema = new mongoose.Schema<IProduct>(
   {
     // name, description, price, image, tags, createdAt, updatedAt
     name: {
