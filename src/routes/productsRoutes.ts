@@ -10,4 +10,6 @@ router.get("/update/:productId", productsController.getUpdateProduct);
 router.post("/update/:productId", productsController.postUpdateProduct);
 
 router.get("/:productId", productsController.getProductDetails);
+router.delete("/:productId", productsController.deleteProduct);
+
 export default router;
