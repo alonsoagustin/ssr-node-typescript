@@ -87,3 +87,28 @@ export const postUpdateProduct = async (req: Request, res: Response) => {
     res.status(500).render(path.join(__dirname, "../viws/layout/base.ejs"));
   }
 };
+
+export const getProductDetails = async (req: Request, res: Response) => {
+  try {
+    // get the product id from the request parameters
+    const { productId } = req.params;
+
+    // find the product in the database
+    const product = await Product.findById(productId);
+
+    console.log(product);
+
+    // if the product does not exist, render the notFound page
+    if (!product) {
+      res.locals.page = "../pages/notFound";
+      res.status(404).render(path.join(__dirname, "../view/layout/base.ejs"));
+    }
+    //render the productDetails page with the product data
+    res.locals.product = product;
+    res.render(path.join(__dirname, "../views/pages/productDetails"));
+  } catch (error) {
+    // if there is an error, render the serverError page
+    res.locals.page = "../pages/serverError";
+    res.status(500).render(path.join(__dirname, "../views/layout/base.ejs"));
+  }
+};
