@@ -90,15 +90,10 @@
         dialog.close()
       })
 
-      // Send a DELETE request when clicking the confirm button
-      confirmDelete.addEventListener('click', (event) => {
+      // Navigate to the delete route when clicking the confirm button
+      confirmDelete.addEventListener('click', async (event) => {
         const productId = event.target.getAttribute('data-id')
-        fetch(`/products/${productId}`, {
-          method: "DELETE",
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
+        window.location.href = `/products/delete/${productId}`
       })
 
       // Close the dialog when clicking the cancel button
