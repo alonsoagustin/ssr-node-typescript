@@ -1,7 +1,7 @@
 import session from "express-session";
 import mongoStore from "connect-mongo";
 import { Request, Response, NextFunction } from "express";
-import { APPNAME, CONTACT, URI, SECRET_SESSION } from "../config";
+import { APP_NAME, CONTACT, URI, SECRET_SESSION } from "../config";
 
 declare module "express-session" {
   interface SessionData {
@@ -29,7 +29,7 @@ export const setLocalsSession = (
   res: Response,
   next: NextFunction
 ) => {
-  res.locals.app = APPNAME;
+  res.locals.app = APP_NAME;
   res.locals.contact = CONTACT;
   res.locals.session = req.session;
   next();
