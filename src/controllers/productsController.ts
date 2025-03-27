@@ -21,6 +21,7 @@ export const getProducts = async (req: Request, res: Response) => {
 
     // if there are products, we render the products page with the products
     res.locals.products = products;
+    res.locals.error = "";
     res.locals.page = "../pages/products";
     res.render(path.join(__dirname, "../views/layout/base.ejs"));
   } catch (error) {
@@ -38,6 +39,45 @@ export const getNewProduct = (_req: Request, res: Response) => {
   res.locals.page = "../pages/newProduct";
   res.locals.tags = tags;
   res.render(path.join(__dirname, "../views/layout/base.ejs"));
+};
+
+export const postNewProduct = async (req: Request, res: Response) => {
+  try {
+    // get userId from the session
+    const userId = req.session.userId;
+
+    const tagsSchema = Product.schema.path("tags").options.enum;
+
+    const tags: string[] = [];
+
+    tagsSchema.forEach((tag: string) => {
+      if (req.body[tag]) {
+        tags.push(tag);
+      }
+    });
+
+    // get the product data from the request body
+    const { name, description, price, quantity, image } = req.body;
+
+    // create a new product using insertOne method
+    const newProduct = await Product.insertOne({
+      name,
+      description,
+      price,
+      quantity,
+      image,
+      tags,
+      owner: userId,
+    });
+
+    console.log(newProduct);
+
+    // redirect to products page
+    res.redirect("/products");
+  } catch (error) {
+    // if there is an error render the serverError page
+    res.locals.page = "../pages/serverError";
+  }
 };
 
 export const getUpdateProduct = async (req: Request, res: Response) => {
