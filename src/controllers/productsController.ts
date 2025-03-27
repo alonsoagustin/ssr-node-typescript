@@ -23,8 +23,13 @@ export const getProducts = async (req: Request, res: Response) => {
 };
 
 export const getNewProduct = (_req: Request, res: Response) => {
+  // get the tags from the Product schema
+  const tags = Product.schema.path("tags").options.enum;
+
+  // render the newProduct page with the tags
   res.locals.page = "../pages/newProduct";
-  res.status(200).render(path.join(__dirname, "../views/layout/base.ejs"));
+  res.locals.tags = tags;
+  res.render(path.join(__dirname, "../views/layout/base.ejs"));
 };
 
 export const getUpdateProduct = async (req: Request, res: Response) => {
