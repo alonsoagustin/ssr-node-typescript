@@ -49,3 +49,41 @@ export const getUpdateProduct = async (req: Request, res: Response) => {
     res.status(404).render(path.join(__dirname, "../views/layout/base.ejs"));
   }
 };
+
+export const postUpdateProduct = async (req: Request, res: Response) => {
+  try {
+    // get the product id from the request parameters
+    const { productId } = req.params;
+
+    // get the product data from the request body
+    const { name, description, price, quantity, image, tags } = req.body;
+
+    // find and update the product in the database
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        name,
+        description,
+        price,
+        quantity,
+        image,
+        tags,
+      },
+      { new: true, runValidators: true }
+    );
+
+    // if the product does not exist, render the notFound page
+    if (!updatedProduct) {
+      res.locals.page = "../pages/notFound";
+      res.status(404).render(path.join(__dirname, "../views/layout/base.ejs"));
+      return;
+    }
+
+    // redirect to products page
+    res.redirect("/products");
+  } catch (error) {
+    // render server error page
+    res.locals.page = "../pages/serverError";
+    res.status(500).render(path.join(__dirname, "../viws/layout/base.ejs"));
+  }
+};
