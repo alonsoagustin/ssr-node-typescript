@@ -1,6 +1,6 @@
 import path from "node:path";
 import { Request, Response } from "express";
-import Product from "../model/Product";
+import Product from "../models/Product";
 
 export const getProducts = async (req: Request, res: Response) => {
   try {

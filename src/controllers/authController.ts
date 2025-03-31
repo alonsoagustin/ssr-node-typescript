@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../model/User";
+import User from "../models/User";
 import path from "node:path";
 
 const renderPage = (
